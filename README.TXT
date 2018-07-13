@@ -1,12 +1,1 @@
-------------------------------------------------------------------------
-This is the project README file. Here, you should describe your project.
-Tell the reader (someone who does not know anything about this project)
-all he/she needs to know. The comments should usually include at least:
-------------------------------------------------------------------------
-
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
-HOW TO START THIS PROJECT:
-AUTHORS:
-USER INSTRUCTIONS:
+I wrote this Java program for the Coursera course: Java Programming: Solving Problems with Software.  The program takes a DNA string and prints the number of genes found, number of genes with longer than 60 bases, number of genes whose C-G-ratio is higher than 0.35, and the longest gene length found.
