@@ -9,6 +9,7 @@ import java.io.*;
 
 public class FindAllGenes {
     
+    // find stop positions in a dna string
      public int findStopIndex(String dna, int startIndex) {
         //set position of the stop codon (tga, taa, tag)
         //if the stop codon is not found, set position to dna length
@@ -24,10 +25,30 @@ public class FindAllGenes {
         if (tagIndex == -1 || (tagIndex - startIndex) % 3 != 0) {
             tagIndex = dna.length();
         }
-        //return the first stop codon position
         return Math.min(tgaIndex, Math.min(taaIndex, tagIndex));
     }
     
+    // print all genes using a dna string
+    public void testFindGenes() {
+        String dna = "atggggtgaatggggtgaatggggtgaatggggtga";        
+        String dnaLower = dna.toLowerCase();
+        int index = 0;
+        while (true) {
+            int startIndex = dnaLower.indexOf("atg", index);
+            if (startIndex == -1) {
+                break;
+            }
+            int stopIndex = findStopIndex(dnaLower, startIndex + 3);
+            if (stopIndex != dna.length()) {
+                System.out.println("Genes found: " + dna.substring(startIndex, stopIndex + 3));
+                index = stopIndex + 3;
+            } else {
+                index++;
+            }
+        }
+    }
+    
+    // store all genes
     public StorageResource getAllGenes(String dna) {
         String dnaLower = dna.toLowerCase();
         int index = 0;
@@ -49,8 +70,8 @@ public class FindAllGenes {
         return genes;
     }
     
+    // count bases in a dna string
     public int howManyBases(String base, String dna){
-        // count bases in a string
         int count = 0;
         int startIndex = dna.indexOf(base);
         while(true){
@@ -63,17 +84,22 @@ public class FindAllGenes {
         }
         return count;
     }
-    
+
+    // calculate CG ratio in a string
     public float cgRatio(String dna) {
-        //calculate CG ratio in a string
         dna = dna.toLowerCase();
         float cg = (float)(howManyBases("c", dna) + howManyBases("g",dna));
         float ratio = cg/dna.length();
         return ratio;
     }
+    
+    public void printCG(){
+        float result = cgRatio("ATGCCCGGGATAG");
+        System.out.println("GC ratio " + result);
+    }
 
+    // count number of CTGs in a string
     public int countCTG(String dna){
-        //number of CTGs in a string
         dna = dna.toLowerCase();
         String stringa = "ctg";
         int startIndex = dna.indexOf(stringa);
@@ -90,13 +116,14 @@ public class FindAllGenes {
         return count;
     }
     
+    // get gene data
     public void processGenes(StorageResource sr){
         int count = 0;
         int geneNumber = 0;
         int cgCount = 0;
         int maxLength = 0;
         int gene_count = 0;
-        // get gene data
+        
         for(String gene: sr.data()){
             geneNumber++;
             float cg = cgRatio(gene);
@@ -116,7 +143,8 @@ public class FindAllGenes {
         System.out.println("The longest gene length found: " + maxLength);
        
     }
-
+    
+    // print gene data
     public void testProcessGenes(){
         //get file object
         FileResource file = new FileResource("brca1line.fa");
